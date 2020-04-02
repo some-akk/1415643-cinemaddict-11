@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Андрей Шведов](https://up.htmlacademy.ru/ecmascript/11/user/1415643).
-* Наставник: `Неизвестно`.
+* Наставник: Александр.
 
 ---
 

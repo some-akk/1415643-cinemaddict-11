@@ -3,7 +3,6 @@ import {getRandomArrayItem} from "../utils";
 
 const titleOriginal = `The Great Flamarion`;
 const director = `Anthony Mann`;
-const release = `30 March 1945`;
 const country = `USA`;
 const writers = `Anne Wigton, Heinz Herald, Richard Weil`;
 const actors = `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`;

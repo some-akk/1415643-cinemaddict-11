@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createGenres = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
 };
@@ -30,7 +32,7 @@ const createComment = (comment) => {
   );
 };
 
-export const createFilmPopupTemplate = (film) => {
+const createFilmPopupTemplate = (film) => {
   const {
     title, titleOriginal, poster, description, comments, rating, duration, inWatchList, inWatched, inFavorite,
     genres, release, country, director, writers, actors, category,
@@ -159,3 +161,21 @@ export const createFilmPopupTemplate = (film) => {
     </section>`
   );
 };
+
+export default class FilmPopup {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmPopupTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+}

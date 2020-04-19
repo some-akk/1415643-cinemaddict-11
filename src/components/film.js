@@ -1,10 +1,11 @@
 import {DESCRIPTION_LENGTH} from "../const";
+import {createElement} from "../utils";
 
 const descriptionCut = (text) => {
   return text.length > DESCRIPTION_LENGTH ? text.slice(0, DESCRIPTION_LENGTH - 1) + `…` : text;
 };
 
-export const createFilmTemplate = (film) => {
+const createFilmTemplate = (film) => {
   const {title, poster, description, comments, rating, year, duration, genre, inWatchList, inWatched, inFavorite} = film;
   const commentsCount = comments ? comments.length : 0;
   const descriptionText = descriptionCut(description);
@@ -31,3 +32,21 @@ export const createFilmTemplate = (film) => {
     </article>`
   );
 };
+
+export default class Film {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+}

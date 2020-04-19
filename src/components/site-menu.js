@@ -5,7 +5,25 @@ const createFilterMarkup = (filter) => {
   );
 };
 
-export const createSiteMenuTemplate = (filters) => {
+const getFiltersCount = (films) => {
+  return [
+    {
+      title: `Watchlist`,
+      count: films.filter((it) => it.inWatchList).length,
+    },
+    {
+      title: `History`,
+      count: films.filter((it) => it.inWatched).length,
+    },
+    {
+      title: `Favorites`,
+      count: films.filter((it) => it.inFavorite).length,
+    },
+  ];
+};
+
+export const createSiteMenuTemplate = (films) => {
+  const filters = getFiltersCount(films);
   const filtersMarkup = filters.map((it) => createFilterMarkup(it)).join(`\n`);
   return (
     `<nav class="main-navigation">

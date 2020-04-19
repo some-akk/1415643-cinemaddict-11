@@ -74,6 +74,9 @@ const generateFilm = () => {
     duration: getRandomDuration(),
     genre: getRandomGenre(),
     comments,
+    inWatchList: getRandomBoolean(),
+    inWatched: getRandomBoolean(),
+    inFavorite: getRandomBoolean(),
   };
 };
 

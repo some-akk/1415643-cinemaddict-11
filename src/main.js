@@ -27,18 +27,8 @@ const siteFooterElement = document.querySelector(`.footer`);
 const user = generateUserRank();
 
 const films = generateFilms(FILM_COUNT);
-const genresCount = films.reduce(function (o, i) {
-  if (!o.hasOwnProperty(i.genre)) {
-    o[i.genre] = 0;
-  }
-  o[i.genre]++;
-  return o;
-}, {});
-const filters = Object.keys(genresCount).map(function (id) {
-  return {title: id, count: genresCount[id]};
-});
 
-render(siteMainElement, createSiteMenuTemplate(filters), `beforeend`);
+render(siteMainElement, createSiteMenuTemplate(films), `beforeend`);
 render(siteHeaderElement, createUserRankTemplate(user), `beforeend`);
 render(siteMainElement, createSortTemplate(), `beforeend`);
 render(siteMainElement, createFilmsTemplate(), `beforeend`);

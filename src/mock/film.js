@@ -59,24 +59,50 @@ const getRandomDuration = () => {
   return (hours ? `${hours}h ` : ``) + `${minutes}m`;
 };
 
-const getRandomGenre = () => {
-  return getRandomArrayItem(GENRE);
+const director = `Anthony Mann`;
+const country = `USA`;
+const writers = `Anne Wigton, Heinz Herald, Richard Weil`;
+const actors = `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`;
+const category = `18+`;
+
+const getReleaseDate = (year) => {
+  const releaseDate = new Date();
+  const releaseDay = getRandomIntegerNumber(1, 364);
+  releaseDate.setFullYear(year);
+  releaseDate.setDate(releaseDay);
+  return releaseDate.toLocaleString(`en-GB`, {year: `numeric`, month: `long`, day: `2-digit`});
+};
+
+const getGenres = () => {
+  const slice = getRandomIntegerNumber(1, (GENRE.length - 1)) * (getRandomBoolean() ? -1 : 1);
+  return getRandomBoolean() ? Array(getRandomArrayItem(GENRE)) : GENRE.slice(slice);
 };
 
 const generateFilm = () => {
-  const comments = getRandomBoolean() ? generateComments(getRandomIntegerNumber(1, 5)) : null;
+  const comments = getRandomBoolean() ? generateComments(getRandomIntegerNumber(1, 5)) : [];
+  const title = getRandomTitle();
+  const year = getRandomYear();
+  const genres = getGenres();
   return {
-    title: getRandomTitle(),
+    title,
     poster: getRandomPoster(),
     description: getRandomDescription(),
     rating: getRandomRating(),
-    year: getRandomYear(),
+    year,
     duration: getRandomDuration(),
-    genre: getRandomGenre(),
+    genre: getRandomArrayItem(genres),
     comments,
     inWatchList: getRandomBoolean(),
     inWatched: getRandomBoolean(),
     inFavorite: getRandomBoolean(),
+    titleOriginal: title,
+    director,
+    release: getReleaseDate(year),
+    genres,
+    country,
+    writers,
+    actors,
+    category: getRandomBoolean() ? category : ``,
   };
 };
 

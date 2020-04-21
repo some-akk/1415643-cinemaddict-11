@@ -1,4 +1,4 @@
-import {RENDER_AFTER_BEGIN, RENDER_BEFORE_END} from "./const";
+import {RENDER_AFTER, RENDER_AFTER_BEGIN, RENDER_BEFORE_END} from "./const";
 
 export const getRandomBoolean = () => {
   return Math.random() > 0.5;
@@ -27,6 +27,9 @@ export const render = (container, element, place = RENDER_BEFORE_END) => {
       break;
     case RENDER_BEFORE_END:
       container.append(element);
+      break;
+    case RENDER_AFTER:
+      container.after(element);
       break;
   }
 };

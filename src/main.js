@@ -6,11 +6,12 @@ import Film from "./components/film";
 import FilmPopup from "./components/film-popup";
 import FooterStat from "./components/footer-stat";
 import MoreButton from "./components/more-button";
+import FilmsExtra from "./components/film-extra";
 
 import {generateFilms} from "./mock/film.js";
-import {generatePopup} from "./mock/film-popup.js";
 import {generateUserRank} from "./mock/user-rank.js";
 import {render} from "./utils";
+import {RENDER_AFTER} from "./const";
 
 const FILM_COUNT = 18;
 const SHOWING_FILM_COUNT_ON_START = 5;
@@ -31,8 +32,7 @@ const renderFilm = (filmListElement, film) => {
   const filmCardTitle = filmCard.querySelector(`.film-card__title`);
   const filmCardComments = filmCard.querySelector(`.film-card__comments`);
 
-  const popupData = generatePopup(film);
-  const filmPopup = new FilmPopup(popupData).getElement();
+  const filmPopup = new FilmPopup(film).getElement();
   const bodyElement = document.body;
 
   const showPopup = () => {
@@ -47,12 +47,10 @@ const renderFilm = (filmListElement, film) => {
   };
 
   const pressEscape = (event) => {
-    switch (event.key) {
-      case `Escape`:
-      case `Esc`:
-        hidePopup();
-        document.removeEventListener(`keydown`, pressEscape);
-        break;
+    const isEscapeKey = event.key === `Escape` || event.key === `Esc`;
+    if (isEscapeKey) {
+      hidePopup();
+      document.removeEventListener(`keydown`, pressEscape);
     }
   };
 
@@ -70,16 +68,28 @@ const renderFilmsBoard = (filmsBoard, films) => {
 
   const filmsList = document.querySelector(`.films-list`);
   const siteFilmsListElement = filmsList.querySelector(`.films-list__container`);
-  const siteExtraFilmsListElement = filmsList.querySelectorAll(`.films-list--extra .films-list__container`);
 
   let showingFilmCount = SHOWING_FILM_COUNT_ON_START;
   films.slice(0, showingFilmCount)
     .forEach((film) => renderFilm(siteFilmsListElement, film));
 
-  siteExtraFilmsListElement.forEach((it) => {
-    const filmsExtra = generateFilms(EXTRA_FILM_COUNT);
-    filmsExtra.forEach((film) => renderFilm(it, film));
-  });
+  const topRatingFilms = films.sort((first, second) => {
+    return second.rating - first.rating;
+  }).slice(0, EXTRA_FILM_COUNT);
+
+  const topCommentFilms = films.sort((first, second) => {
+    return second.comments.length - first.comments.length;
+  }).slice(0, EXTRA_FILM_COUNT);
+
+  const mostCommented = new FilmsExtra(`Most commented`).getElement();
+  const mostCommentedList = mostCommented.querySelector(`.films-list__container`);
+  topCommentFilms.forEach((film) => renderFilm(mostCommentedList, film));
+  render(filmsList, mostCommented, RENDER_AFTER);
+
+  const topRated = new FilmsExtra(`Top rated`).getElement();
+  const topRatedList = topRated.querySelector(`.films-list__container`);
+  topRatingFilms.forEach((film) => renderFilm(topRatedList, film));
+  render(filmsList, topRated, RENDER_AFTER);
 
   const moreButton = new MoreButton().getElement();
 

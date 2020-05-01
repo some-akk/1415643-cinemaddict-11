@@ -1,5 +1,5 @@
+import AbstractComponent from "./abstract-component";
 import {DESCRIPTION_LENGTH} from "../const";
-import {createElement} from "../utils";
 
 const descriptionCut = (text) => {
   return text.length > DESCRIPTION_LENGTH ? text.slice(0, DESCRIPTION_LENGTH - 1) + `…` : text;
@@ -33,20 +33,26 @@ const createFilmTemplate = (film) => {
   );
 };
 
-export default class Film {
+export default class Film extends AbstractComponent {
+
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  setClickPosterHandler(handler) {
+    this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, handler);
+  }
+
+  setClickTitleHandler(handler) {
+    this.getElement().querySelector(`.film-card__title`).addEventListener(`click`, handler);
+  }
+
+  setClickCommentsHandler(handler) {
+    this.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, handler);
   }
 }

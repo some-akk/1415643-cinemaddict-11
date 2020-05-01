@@ -1,5 +1,3 @@
-import {RENDER_AFTER, RENDER_AFTER_BEGIN, RENDER_BEFORE_END} from "./const";
-
 export const getRandomBoolean = () => {
   return Math.random() > 0.5;
 };
@@ -13,23 +11,3 @@ export const getRandomArrayItem = (array) => {
   return array[randomIndex];
 };
 
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstChild;
-};
-
-export const render = (container, element, place = RENDER_BEFORE_END) => {
-  switch (place) {
-    case RENDER_AFTER_BEGIN:
-      container.prepend(element);
-      break;
-    case RENDER_BEFORE_END:
-      container.append(element);
-      break;
-    case RENDER_AFTER:
-      container.after(element);
-      break;
-  }
-};

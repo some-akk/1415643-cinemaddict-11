@@ -7,13 +7,14 @@ import FilmPopup from "./components/film-popup";
 import FooterStat from "./components/footer-stat";
 import MoreButton from "./components/more-button";
 import FilmsExtra from "./components/film-extra";
+import NoFilmsComponent from './components/no-films';
 
 import {generateFilms} from "./mock/film.js";
 import {generateUserRank} from "./mock/user-rank.js";
 import {render} from "./utils";
 import {RENDER_AFTER} from "./const";
 
-const FILM_COUNT = 18;
+const FILM_COUNT = 22;
 const SHOWING_FILM_COUNT_ON_START = 5;
 const SHOWING_FILM_COUNT_BY_BUTTON = 5;
 const EXTRA_FILM_COUNT = 2;
@@ -64,9 +65,17 @@ const renderFilm = (filmListElement, film) => {
   render(filmListElement, filmCard);
 };
 
-const renderFilmsBoard = (filmsBoard, films) => {
+const renderFilmsBoard = (container, films) => {
 
+  if (films.length === 0) {
+    render(container, new NoFilmsComponent().getElement());
+    return;
+  }
+
+  const filmsBoard = new Films();
+  render(container, filmsBoard.getElement());
   const filmsList = document.querySelector(`.films-list`);
+
   const siteFilmsListElement = filmsList.querySelector(`.films-list__container`);
 
   let showingFilmCount = SHOWING_FILM_COUNT_ON_START;
@@ -116,7 +125,4 @@ render(siteMainElement, siteMenu.getElement());
 render(siteMainElement, new Sort().getElement());
 render(siteFooterStatElement, new FooterStat(films.length).getElement());
 
-const filmsBoard = new Films();
-render(siteMainElement, filmsBoard.getElement());
-
-renderFilmsBoard(filmsBoard, films);
+renderFilmsBoard(siteMainElement, films);

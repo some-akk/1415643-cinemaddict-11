@@ -1,5 +1,5 @@
-import {getRandomArrayItem} from "../utils.js";
-import {EMOTIONS} from "../const.js";
+import {EMOTIONS} from "../const";
+import {getRandomDate, getRandomArrayItem} from "../utils/common";
 
 const authors = [
   `Tim Macoveev`,
@@ -13,10 +13,6 @@ const comments = [
   `Almost two hours? Seriously?`,
 ];
 
-const getRandomDate = () => {
-  const start = new Date(`2020-01-01`);
-  return new Date(+start + Math.random() * (new Date() - start));
-};
 
 const generateComment = () => {
   return {

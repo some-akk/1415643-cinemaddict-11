@@ -5,13 +5,19 @@ const descriptionCut = (text) => {
   return text.length > DESCRIPTION_LENGTH ? text.slice(0, DESCRIPTION_LENGTH - 1) + `…` : text;
 };
 
+/**
+ *
+ * @param {Film} film
+ * @return {string}
+ */
 const createFilmTemplate = (film) => {
-  const {title, poster, description, comments, rating, year, duration, genre, inWatchList, inWatched, inFavorite} = film;
+  const {title, poster, description, comments, rating, release, duration, genre, inWatchList, inWatched, inFavorite} = film;
   const commentsCount = comments ? comments.length : 0;
   const descriptionText = descriptionCut(description);
   const watchListActiveClass = inWatchList ? `film-card__controls-item--active` : ``;
   const watchedActiveClass = inWatched ? `film-card__controls-item--active` : ``;
   const favoriteActiveClass = inFavorite ? `film-card__controls-item--active` : ``;
+  const year = release.getFullYear();
   return (
     `<article class="film-card">
       <h3 class="film-card__title">${title}</h3>

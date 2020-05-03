@@ -1,6 +1,6 @@
-import {GENRE} from "../const.js";
-import {getRandomArrayItem, getRandomBoolean, getRandomIntegerNumber} from "../utils.js";
-import {generateComments} from "./comment.js";
+import {GENRE} from "../const";
+import {getRandomArrayItem, getRandomBoolean, getRandomDate, getRandomIntegerNumber} from "../utils/common";
+import {generateComments} from "./comment";
 
 const posters = [
   `the-dance-of-life.jpg`,
@@ -46,13 +46,6 @@ const getRandomRating = () => {
   return rating.toFixed(1);
 };
 
-const getRandomYear = () => {
-  const start = new Date(`1930-10-10`);
-  const year = start.getFullYear();
-  const sign = getRandomBoolean() ? 1 : -1;
-  return year + sign * getRandomIntegerNumber(0, 20);
-};
-
 const getRandomDuration = () => {
   const hours = getRandomIntegerNumber(0, 5);
   const minutes = getRandomIntegerNumber(0, 59);
@@ -65,14 +58,6 @@ const writers = `Anne Wigton, Heinz Herald, Richard Weil`;
 const actors = `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`;
 const category = `18+`;
 
-const getReleaseDate = (year) => {
-  const releaseDate = new Date();
-  const releaseDay = getRandomIntegerNumber(1, 364);
-  releaseDate.setFullYear(year);
-  releaseDate.setDate(releaseDay);
-  return releaseDate.toLocaleString(`en-GB`, {year: `numeric`, month: `long`, day: `2-digit`});
-};
-
 const getGenres = () => {
   const slice = getRandomIntegerNumber(1, (GENRE.length - 1)) * (getRandomBoolean() ? -1 : 1);
   return getRandomBoolean() ? Array(getRandomArrayItem(GENRE)) : GENRE.slice(slice);
@@ -81,14 +66,12 @@ const getGenres = () => {
 const generateFilm = () => {
   const comments = getRandomBoolean() ? generateComments(getRandomIntegerNumber(1, 5)) : [];
   const title = getRandomTitle();
-  const year = getRandomYear();
   const genres = getGenres();
   return {
     title,
     poster: getRandomPoster(),
     description: getRandomDescription(),
     rating: getRandomRating(),
-    year,
     duration: getRandomDuration(),
     genre: getRandomArrayItem(genres),
     comments,
@@ -97,7 +80,7 @@ const generateFilm = () => {
     inFavorite: getRandomBoolean(),
     titleOriginal: title,
     director,
-    release: getReleaseDate(year),
+    release: getRandomDate(`1920-01-01`),
     genres,
     country,
     writers,

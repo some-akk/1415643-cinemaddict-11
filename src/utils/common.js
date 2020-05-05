@@ -11,3 +11,7 @@ export const getRandomArrayItem = (array) => {
   return array[randomIndex];
 };
 
+export const getRandomDate = (startYear = `2020-01-01`) => {
+  const start = new Date(startYear);
+  return new Date(+start + Math.random() * (new Date() - start));
+};

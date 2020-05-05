@@ -44,6 +44,7 @@ const createFilmPopupTemplate = (film) => {
   const isWatchList = inWatchList ? `checked` : ``;
   const isWatched = inWatched ? `checked` : ``;
   const isFavorite = inFavorite ? `checked` : ``;
+  const releaseDate = release.toLocaleString(`en-GB`, {year: `numeric`, month: `long`, day: `2-digit`});
 
   return (
     `<section class="film-details">
@@ -86,7 +87,7 @@ const createFilmPopupTemplate = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${release}</td>
+                  <td class="film-details__cell">${releaseDate}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>

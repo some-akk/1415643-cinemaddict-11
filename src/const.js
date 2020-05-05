@@ -16,3 +16,4 @@ export const EMOTIONS = [
 ];
 
 export const DESCRIPTION_LENGTH = 140;
+export const FILM_COUNT = 12;

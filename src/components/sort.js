@@ -1,19 +1,26 @@
 import AbstractComponent from "./abstract-component";
 
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `date`,
+  RATING: `rating`,
+  COMMENTS: `comments`,
+};
+
 const sortOrders = [
-  `default`,
-  `date`,
-  `rating`,
+  {key: SortType.DEFAULT, title: `default`},
+  {key: SortType.DATE, title: `date`},
+  {key: SortType.RATING, title: `rating`},
 ];
 
-const createSortMarkup = (type, isActive) => {
+const createSortMarkup = (order, isActive) => {
   const activeClass = isActive ? `sort__button--active` : ``;
-  return `<li><a href="#" class="sort__button ${activeClass}">Sort by ${type}</a></li>`;
+  return `<li><a href="#" class="sort__button ${activeClass}" data-sort-type="${order.key}">Sort by ${order.title}</a></li>`;
 };
 
 
-const createSortTemplate = () => {
-  const sortMarkup = sortOrders.map((type, index) => createSortMarkup(type, index === 0)).join(`\n`);
+const createSortTemplate = (sortType) => {
+  const sortMarkup = sortOrders.map((type) => createSortMarkup(type, type.key === sortType)).join(`\n`);
   return (
     `<ul class="sort">
         ${sortMarkup}
@@ -23,7 +30,36 @@ const createSortTemplate = () => {
 
 export default class Sort extends AbstractComponent {
 
+  constructor() {
+    super();
+    this._currentSortType = SortType.DEFAULT;
+  }
+
   getTemplate() {
-    return createSortTemplate();
+    return createSortTemplate(this._currentSortType);
+  }
+
+  getSortType() {
+    return this._currentSortType;
+  }
+
+  setSortTypeChangeHandler(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+      this.getElement().querySelector(`.sort__button--active`).classList.remove(`sort__button--active`);
+      evt.target.classList.add(`sort__button--active`);
+      const sortType = evt.target.dataset.sortType;
+
+      if (this._currentSortType === sortType) {
+        return;
+      }
+
+      this._currentSortType = sortType;
+      handler(this._currentSortType);
+    });
   }
 }

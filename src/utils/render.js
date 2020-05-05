@@ -2,6 +2,11 @@ export const RENDER_AFTER_BEGIN = `afterbegin`;
 export const RENDER_BEFORE_END = `beforeend`;
 export const RENDER_AFTER = `after`;
 
+/**
+ *
+ * @param {string} template
+ * @return {ChildNode}
+ */
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
@@ -9,6 +14,12 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
+/**
+ *
+ * @param {Element} container
+ * @param {AbstractComponent} component
+ * @param {string} place
+ */
 export const render = (container, component, place = RENDER_BEFORE_END) => {
   switch (place) {
     case RENDER_AFTER_BEGIN:
@@ -23,6 +34,11 @@ export const render = (container, component, place = RENDER_BEFORE_END) => {
   }
 };
 
+/**
+ *
+ * @param {AbstractComponent} newComponent
+ * @param {AbstractComponent} oldComponent
+ */
 export const replace = (newComponent, oldComponent) => {
   const parentElement = oldComponent.getElement().parentElement;
   const newElement = newComponent.getElement();
@@ -35,6 +51,10 @@ export const replace = (newComponent, oldComponent) => {
   }
 };
 
+/**
+ *
+ * @param {AbstractComponent}component
+ */
 export const remove = (component) => {
   component.getElement().remove();
   component.removeElement();

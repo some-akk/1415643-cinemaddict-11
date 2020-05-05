@@ -63,11 +63,13 @@ const getGenres = () => {
   return getRandomBoolean() ? Array(getRandomArrayItem(GENRE)) : GENRE.slice(slice);
 };
 
-const generateFilm = () => {
+const generateFilm = (index) => {
   const comments = getRandomBoolean() ? generateComments(getRandomIntegerNumber(1, 5)) : [];
   const title = getRandomTitle();
   const genres = getGenres();
+  const id = (index + 1);
   return {
+    id,
     title,
     poster: getRandomPoster(),
     description: getRandomDescription(),
@@ -92,7 +94,7 @@ const generateFilm = () => {
 const generateFilms = (count) => {
   return new Array(count)
     .fill(``)
-    .map(generateFilm);
+    .map((el, index) => generateFilm(index));
 };
 
 export {generateFilms};

@@ -1,20 +1,14 @@
 import AbstractSmartComponent from "./abstract-smart-component";
+import {formatDateByMask, formatDateFromNow} from "../utils/common";
+import {DATE_FORMAT} from "../const";
 
 const createGenres = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
 };
 
-const formatCommentDate = (date) => {
-  const year = date.getFullYear();
-  const month = date.toLocaleString(`ru`, {month: `2-digit`});
-  const day = date.toLocaleString(`ru`, {day: `2-digit`});
-  const time = date.toLocaleTimeString([], {hour: `2-digit`, minute: `2-digit`});
-  return `${year}/${month}/${day} ${time}`;
-};
-
 const createComment = (comment) => {
   const {emotion, date, author, text} = comment;
-  const dateFormat = formatCommentDate(date);
+  const dateFormat = formatDateFromNow(date);
   return (
     `<li class="film-details__comment">
         <span class="film-details__comment-emoji">
@@ -44,7 +38,7 @@ const createFilmPopupTemplate = (film, comment = {}) => {
   const isWatchList = inWatchList ? `checked` : ``;
   const isWatched = inWatched ? `checked` : ``;
   const isFavorite = inFavorite ? `checked` : ``;
-  const releaseDate = release.toLocaleString(`en-GB`, {year: `numeric`, month: `long`, day: `2-digit`});
+  const releaseDate = formatDateByMask(release, DATE_FORMAT.DATE);
   const commentEmoji = comment.emoji ? comment.emoji : `smile`;
 
   return (

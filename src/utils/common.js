@@ -1,3 +1,8 @@
+import {DATE_FORMAT} from "../const";
+import moment from "moment";
+const momentDurationFormat = require(`moment-duration-format`);
+momentDurationFormat(moment);
+
 export const getRandomBoolean = () => {
   return Math.random() > 0.5;
 };
@@ -14,4 +19,16 @@ export const getRandomArrayItem = (array) => {
 export const getRandomDate = (startYear = `2020-01-01`) => {
   const start = new Date(startYear);
   return new Date(+start + Math.random() * (new Date() - start));
+};
+
+export const getFormatDateDuration = (date) => {
+  return moment.duration(date, `minutes`).format(DATE_FORMAT.DURATION);
+};
+
+export const formatDateFromNow = (date) => {
+  return moment(date).fromNow();
+};
+
+export const formatDateByMask = (date, mask) => {
+  return moment(date).format(mask);
 };

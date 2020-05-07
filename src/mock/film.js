@@ -1,5 +1,5 @@
 import {GENRE} from "../const";
-import {getRandomArrayItem, getRandomBoolean, getRandomDate, getRandomIntegerNumber} from "../utils/common";
+import {getFormatDateDuration, getRandomArrayItem, getRandomBoolean, getRandomDate, getRandomIntegerNumber} from "../utils/common";
 import {generateComments} from "./comment";
 
 const posters = [
@@ -46,12 +46,6 @@ const getRandomRating = () => {
   return rating.toFixed(1);
 };
 
-const getRandomDuration = () => {
-  const hours = getRandomIntegerNumber(0, 5);
-  const minutes = getRandomIntegerNumber(0, 59);
-  return (hours ? `${hours}h ` : ``) + `${minutes}m`;
-};
-
 const director = `Anthony Mann`;
 const country = `USA`;
 const writers = `Anne Wigton, Heinz Herald, Richard Weil`;
@@ -68,13 +62,14 @@ const generateFilm = (index) => {
   const title = getRandomTitle();
   const genres = getGenres();
   const id = (index + 1);
+  const duration = getFormatDateDuration(getRandomIntegerNumber(61, 360));
   return {
     id,
     title,
     poster: getRandomPoster(),
     description: getRandomDescription(),
     rating: getRandomRating(),
-    duration: getRandomDuration(),
+    duration,
     genre: getRandomArrayItem(genres),
     comments,
     inWatchList: getRandomBoolean(),

@@ -1,5 +1,6 @@
 import AbstractComponent from "./abstract-component";
-import {DESCRIPTION_LENGTH} from "../const";
+import {DATE_FORMAT, DESCRIPTION_LENGTH} from "../const";
+import {formatDateByMask} from "../utils/common";
 
 const descriptionCut = (text) => {
   return text.length > DESCRIPTION_LENGTH ? text.slice(0, DESCRIPTION_LENGTH - 1) + `…` : text;
@@ -17,7 +18,7 @@ const createFilmTemplate = (film) => {
   const watchListActiveClass = inWatchList ? `film-card__controls-item--active` : ``;
   const watchedActiveClass = inWatched ? `film-card__controls-item--active` : ``;
   const favoriteActiveClass = inFavorite ? `film-card__controls-item--active` : ``;
-  const year = release.getFullYear();
+  const year = formatDateByMask(release, DATE_FORMAT.YEAR);
   return (
     `<article class="film-card">
       <h3 class="film-card__title">${title}</h3>

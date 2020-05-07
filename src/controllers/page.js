@@ -60,7 +60,7 @@ const getSortedFilms = (filmsList, sortType, start, end) => {
       sortedFilms = filmsDefaultOrder;
       break;
     case SortType.DATE:
-      sortedFilms = filmsDefaultOrder.sort((a, b) => a.release.getTime() - b.release.getTime());
+      sortedFilms = filmsDefaultOrder.sort((a, b) => b.release.getTime() - a.release.getTime());
       break;
     case SortType.RATING:
       sortedFilms = filmsDefaultOrder.sort((a, b) => b.rating - a.rating);

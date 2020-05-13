@@ -21,5 +21,19 @@ export const DATE_FORMAT = {
   DURATION: `h[h] m[m]`,
 };
 
+export const FilterType = {
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITES: `favorites`,
+};
+
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `date`,
+  RATING: `rating`,
+  COMMENTS: `comments`,
+};
+
 export const DESCRIPTION_LENGTH = 140;
 export const FILM_COUNT = 12;

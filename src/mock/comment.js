@@ -1,5 +1,5 @@
 import {EMOTIONS} from "../const";
-import {getRandomDate, getRandomArrayItem} from "../utils/common";
+import {getRandomDate, getRandomArrayItem, getUniqueId} from "../utils/common";
 
 const authors = [
   `Tim Macoveev`,
@@ -16,6 +16,7 @@ const comments = [
 
 const generateComment = () => {
   return {
+    id: getUniqueId(),
     emotion: getRandomArrayItem(EMOTIONS),
     date: getRandomDate(),
     author: getRandomArrayItem(authors),

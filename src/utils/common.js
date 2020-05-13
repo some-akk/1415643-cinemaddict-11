@@ -32,3 +32,7 @@ export const formatDateFromNow = (date) => {
 export const formatDateByMask = (date, mask) => {
   return moment(date).format(mask);
 };
+
+export const getUniqueId = () => {
+  return Math.random().toString().slice(2);
+};

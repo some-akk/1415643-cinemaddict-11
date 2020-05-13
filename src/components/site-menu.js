@@ -1,36 +1,21 @@
 import AbstractComponent from "./abstract-component";
 
+const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+
 const createFilterMarkup = (filter) => {
-  const {title, count} = filter;
+  const {title, count, checked} = filter;
   return (
-    `<a href="#${title.toLowerCase()}" class="main-navigation__item">${title} <span class="main-navigation__item-count">${count}</span></a>`
+    `<a href="#${title}" class="main-navigation__item ${checked ? `main-navigation__item--active` : ``}">${capitalize(title)}
+      ${title === `all` ? `movies` : `<span class="main-navigation__item-count">${count}</span>`}
+    </a>`
   );
 };
 
-const getFiltersCount = (films) => {
-  return [
-    {
-      title: `Watchlist`,
-      count: films.filter((it) => it.inWatchList).length,
-    },
-    {
-      title: `History`,
-      count: films.filter((it) => it.inWatched).length,
-    },
-    {
-      title: `Favorites`,
-      count: films.filter((it) => it.inFavorite).length,
-    },
-  ];
-};
-
-const createSiteMenuTemplate = (films) => {
-  const filters = getFiltersCount(films);
+const createSiteMenuTemplate = (filters) => {
   const filtersMarkup = filters.map((it) => createFilterMarkup(it)).join(`\n`);
   return (
     `<nav class="main-navigation">
         <div class="main-navigation__items">
-          <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
           ${filtersMarkup}
         </div>
         <a href="#stats" class="main-navigation__additional">Stats</a>
@@ -40,12 +25,23 @@ const createSiteMenuTemplate = (films) => {
 
 export default class SiteMenu extends AbstractComponent {
 
-  constructor(films) {
+  /**
+   * @param {array} filters
+   * */
+  constructor(filters) {
     super();
-    this._films = films;
+    this._filters = filters;
   }
 
   getTemplate() {
-    return createSiteMenuTemplate(this._films);
+    return createSiteMenuTemplate(this._filters);
+  }
+
+  setFilterChangeHandler(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      const link = evt.target.tagName === `A` ? evt.target.href : evt.target.parentElement.href;
+      const filter = link.split(`#`)[1];
+      handler(filter);
+    });
   }
 }

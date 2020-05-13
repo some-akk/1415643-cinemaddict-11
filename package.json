@@ -18,6 +18,7 @@
     "node": "10"
   },
   "dependencies": {
+    "he": "^1.2.0",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
     "webpack": "^4.42.1",

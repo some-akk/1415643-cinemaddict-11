@@ -7,12 +7,15 @@ const createFooterStatTemplate = (number) => {
 
 export default class FooterStat extends AbstractComponent {
 
-  constructor(films) {
+  /**
+   * @param {Movies} movies
+   */
+  constructor(movies) {
     super();
-    this._films = films;
+    this._films = movies.getFilms();
   }
 
   getTemplate() {
-    return createFooterStatTemplate(this._films);
+    return createFooterStatTemplate(this._films.length);
   }
 }

@@ -1,11 +1,5 @@
-import AbstractComponent from "./abstract-component";
-
-export const SortType = {
-  DEFAULT: `default`,
-  DATE: `date`,
-  RATING: `rating`,
-  COMMENTS: `comments`,
-};
+import AbstractSmartComponent from "./abstract-smart-component";
+import {SortType} from "../const";
 
 const sortOrders = [
   {key: SortType.DEFAULT, title: `default`},
@@ -28,11 +22,12 @@ const createSortTemplate = (sortType) => {
   );
 };
 
-export default class Sort extends AbstractComponent {
+export default class Sort extends AbstractSmartComponent {
 
   constructor() {
     super();
     this._currentSortType = SortType.DEFAULT;
+    this._sortTypeChangeHandler = null;
   }
 
   getTemplate() {
@@ -43,7 +38,17 @@ export default class Sort extends AbstractComponent {
     return this._currentSortType;
   }
 
+  recoveryListeners() {
+    this.setSortTypeChangeHandler(this._sortTypeChangeHandler);
+  }
+
+  reset() {
+    this._currentSortType = SortType.DEFAULT;
+    this.rerender();
+  }
+
   setSortTypeChangeHandler(handler) {
+    this._sortTypeChangeHandler = handler;
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
@@ -60,6 +65,7 @@ export default class Sort extends AbstractComponent {
 
       this._currentSortType = sortType;
       handler(this._currentSortType);
+      this.rerender();
     });
   }
 }

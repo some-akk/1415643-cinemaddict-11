@@ -1,6 +1,7 @@
 import FooterStat from "./components/footer-stat";
+import FilterController from "./controllers/filter";
+import Movies from "./models/movies";
 import PageController from "./controllers/page";
-import SiteMenu from "./components/site-menu";
 import UserRank from "./components/user-rank";
 import {generateFilms} from "./mock/film";
 import {generateUserRank} from "./mock/user-rank";
@@ -12,10 +13,15 @@ const siteMainElement = document.querySelector(`.main`);
 const siteFooterStatElement = document.querySelector(`.footer__statistics`);
 const user = generateUserRank();
 const films = generateFilms(FILM_COUNT);
+const moviesModel = new Movies();
+moviesModel.setFilms(films);
 
 render(siteHeaderElement, new UserRank(user));
-render(siteMainElement, new SiteMenu(films));
-render(siteFooterStatElement, new FooterStat(films.length));
 
-const page = new PageController(siteMainElement);
-page.render(films);
+render(siteFooterStatElement, new FooterStat(moviesModel));
+
+const filterController = new FilterController(siteMainElement, moviesModel);
+filterController.render();
+
+const page = new PageController(siteMainElement, moviesModel);
+page.render();

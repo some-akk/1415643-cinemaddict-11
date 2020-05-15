@@ -35,5 +35,19 @@ export const SortType = {
   COMMENTS: `comments`,
 };
 
+export const StatisticsFilterName = `stats`;
+
+export const StatisticsFilter = {
+  ALL_TIME: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`
+};
+
 export const DESCRIPTION_LENGTH = 140;
 export const FILM_COUNT = 12;
+
+export const SHOWING_FILM_COUNT_ON_START = 5;
+export const SHOWING_FILM_COUNT_BY_BUTTON = 5;
+export const EXTRA_FILM_COUNT = 2;

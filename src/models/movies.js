@@ -1,4 +1,4 @@
-import {FilterType} from "../const";
+import {FilterType, StatisticsFilterName} from "../const";
 import {getFilmsByFilter} from "../utils/filter";
 
 export default class Movies {
@@ -9,6 +9,10 @@ export default class Movies {
 
     this._dataChangeHandlers = [];
     this._filterChangeHandlers = [];
+  }
+
+  isStatisticsFilter() {
+    return this._activeFilterType === StatisticsFilterName;
   }
 
   /**
@@ -23,6 +27,35 @@ export default class Movies {
    * */
   getFilmsAll() {
     return this._films;
+  }
+
+  getStatistics() {
+    const films = this.getWatchedFilms();
+    const genreGroups = films.reduce((genres, film) => {
+      for (const genre of film.genres) {
+        const exist = genres.find(({title}) => genre === title);
+        if (!exist) {
+          genres.push({title: genre, count: 1});
+        } else {
+          exist.count++;
+        }
+      }
+      return genres;
+    }, []);
+
+    return {
+      count: films.length,
+      duration: films.reduce((a, b) => a + b.duration, 0),
+      genres: genreGroups.slice().sort((a, b) => b.count - a.count)
+    };
+  }
+
+  getWatchedCounter() {
+    return this.getWatchedFilms().length;
+  }
+
+  getWatchedFilms() {
+    return getFilmsByFilter(this._films, FilterType.HISTORY);
   }
 
   /**

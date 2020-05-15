@@ -1,16 +1,14 @@
 import Films from "../components/films";
 import FilmsExtra from "../components/film-extra";
+import FooterStat from "../components/footer-stat";
 import NoFilms from "../components/no-films";
 import MoreButton from "../components/more-button";
 import Sort from "../components/sort";
-import {SortType} from "../const";
+import {EXTRA_FILM_COUNT, SHOWING_FILM_COUNT_BY_BUTTON, SHOWING_FILM_COUNT_ON_START, SortType} from "../const";
 import {remove, render, RENDER_AFTER} from "../utils/render";
 import MovieController from "./movie";
-
-const SHOWING_FILM_COUNT_ON_START = 5;
-const SHOWING_FILM_COUNT_BY_BUTTON = 5;
-const EXTRA_FILM_COUNT = 2;
-
+import Statistics from "../components/statistics";
+import UserRank from "../components/user-rank";
 
 /**
  * @param {Element} listElement
@@ -84,9 +82,12 @@ export default class PageController {
   constructor(container, movies) {
     this._container = container;
     this._filmsComponent = new Films();
-    this._sortComponent = new Sort();
+    this._footerStatComponent = new FooterStat(movies);
     this._moreButtonComponent = new MoreButton();
     this._noFilmsComponent = new NoFilms();
+    this._sortComponent = new Sort();
+    this._statisticsComponent = new Statistics(movies);
+    this._userRankComponent = new UserRank(movies);
     this._moviesModel = movies;
     this._filmsControllers = [];
     this._filmsExtraControllers = [];
@@ -99,8 +100,22 @@ export default class PageController {
     this._moviesModel.setFilterChangeHandler(this._onFilterChange);
   }
 
+  hideStatistic() {
+    this._statisticsComponent.hide();
+    this._sortComponent.show();
+    this._filmsComponent.show();
+  }
+
+  showStatistic() {
+    this._sortComponent.hide();
+    this._filmsComponent.hide();
+    this._statisticsComponent.show();
+  }
+
   render() {
     const films = this._moviesModel.getFilms();
+    this._renderHeader();
+    this._renderFooter();
 
     if (films.length === 0) {
       render(this._container, this._noFilmsComponent);
@@ -109,6 +124,8 @@ export default class PageController {
 
     render(this._container, this._sortComponent);
     render(this._container, this._filmsComponent);
+    render(this._container, this._statisticsComponent);
+    this._statisticsComponent.hide();
 
     const filmsList = this._filmsComponent.getElement().querySelector(`.films-list`);
 
@@ -127,6 +144,7 @@ export default class PageController {
   _onDataChange(movieController, oldData, newData) {
     const isUpdated = this._moviesModel.updateFilm(oldData.id, newData);
     if (isUpdated) {
+      this._userRankComponent.rerender();
       movieController.render(newData);
       const updatedFilmControllers = [].concat(this._filmsExtraControllers, this._filmsControllers)
         .filter((it) => it._filmId === newData.id && it !== movieController);
@@ -139,8 +157,12 @@ export default class PageController {
   }
 
   _onFilterChange() {
-    this._sortComponent.reset();
-    this._updateMovies(SHOWING_FILM_COUNT_ON_START);
+    if (this._moviesModel.isStatisticsFilter()) {
+      this.showStatistic();
+    } else {
+      this.hideStatistic();
+      this._updateMovies(SHOWING_FILM_COUNT_ON_START);
+    }
   }
 
   _onSortTypeChange(sortType) {
@@ -154,6 +176,15 @@ export default class PageController {
   _onViewChange() {
     this._filmsControllers.forEach((it) => it.setDefaultView());
     this._filmsExtraControllers.forEach((it) => it.setDefaultView());
+  }
+
+  _renderHeader() {
+    const siteHeaderElement = document.querySelector(`.header`);
+    render(siteHeaderElement, this._userRankComponent);
+  }
+  _renderFooter() {
+    const siteFooterStatElement = document.querySelector(`.footer__statistics`);
+    render(siteFooterStatElement, this._footerStatComponent);
   }
 
   _removeMovies() {
@@ -190,6 +221,7 @@ export default class PageController {
   }
 
   _updateMovies(count) {
+    this._sortComponent.reset();
     this._removeMovies();
     this._renderMovies(this._moviesModel.getFilms().slice(0, count));
     this._renderShowMoreButton();

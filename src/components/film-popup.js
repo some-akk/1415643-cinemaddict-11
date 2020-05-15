@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {formatDateByMask, formatDateFromNow} from "../utils/common";
+import {formatDateByMask, formatDateFromNow, getFormatDateDuration} from "../utils/common";
 import {DATE_FORMAT, EMOTIONS} from "../const";
 import {encode} from "he";
 
@@ -53,6 +53,7 @@ const createFilmPopupTemplate = (film, comment = {}) => {
   const commentEmoji = comment.emotion ? comment.emotion : `smile`;
   const commentText = comment.text ? comment.text : ``;
   const emotionList = EMOTIONS.map((it) => createEmotionList(it, commentEmoji === it)).join(`\n`);
+  const durationHuman = getFormatDateDuration(duration);
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -98,7 +99,7 @@ const createFilmPopupTemplate = (film, comment = {}) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${duration}</td>
+                  <td class="film-details__cell">${durationHuman}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>

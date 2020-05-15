@@ -33,7 +33,7 @@ export default class FilterController {
       };
     });
     const oldComponent = this._siteMenuComponent;
-    this._siteMenuComponent = new SiteMenu(filters);
+    this._siteMenuComponent = new SiteMenu(filters, this._moviesModel._activeFilterType);
     this._siteMenuComponent.setFilterChangeHandler(this._onFilterChange);
 
     if (oldComponent) {

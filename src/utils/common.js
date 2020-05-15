@@ -36,3 +36,16 @@ export const formatDateByMask = (date, mask) => {
 export const getUniqueId = () => {
   return Math.random().toString().slice(2);
 };
+
+export const getRankTitle = (rank) => {
+  if (!rank) {
+    return ``;
+  }
+  if (rank >= 21) {
+    return `Movie Buff`;
+  }
+  if (rank >= 11) {
+    return `Fan`;
+  }
+  return `Novice`;
+};

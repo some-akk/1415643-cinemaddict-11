@@ -1,5 +1,5 @@
 import {GENRE} from "../const";
-import {getFormatDateDuration, getRandomArrayItem, getRandomBoolean, getRandomDate, getRandomIntegerNumber} from "../utils/common";
+import {getRandomArrayItem, getRandomBoolean, getRandomDate, getRandomIntegerNumber} from "../utils/common";
 import {generateComments} from "./comment";
 
 const posters = [
@@ -62,7 +62,7 @@ const generateFilm = (index) => {
   const title = getRandomTitle();
   const genres = getGenres();
   const id = (index + 1);
-  const duration = getFormatDateDuration(getRandomIntegerNumber(61, 360));
+  const duration = getRandomIntegerNumber(61, 360);
   return {
     id,
     title,
